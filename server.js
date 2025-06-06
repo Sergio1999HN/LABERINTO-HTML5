@@ -6,12 +6,12 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Servir archivos estáticos desde la subcarpeta JUEGOS-HTML5 (usando path.resolve)
-app.use(express.static(path.resolve(__dirname, 'JUEGOS-HTML5')));
+// Servir archivos estáticos desde la raíz
+app.use(express.static(__dirname));
 
 // Responder con index.html para cualquier ruta (SPA)
 app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'JUEGOS-HTML5', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const server = http.createServer(app);
