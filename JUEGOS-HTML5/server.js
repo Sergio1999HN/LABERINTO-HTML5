@@ -1,17 +1,23 @@
 // server.js
 // Servidor WebSocket para partidas online de Laberinto
 
+const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
+const path = require('path');
 
+const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Servidor HTTP básico para Render
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Servidor WebSocket de Laberinto activo');
+// Servir archivos estáticos (HTML, JS, CSS)
+app.use(express.static(path.join(__dirname)));
+
+// Respuesta para cualquier ruta no encontrada (opcional)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 let rooms = {};
 
