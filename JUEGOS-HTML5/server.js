@@ -1,8 +1,18 @@
 // server.js
 // Servidor WebSocket para partidas online de Laberinto
 
+const http = require('http');
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({ port: 8080 });
+
+const PORT = process.env.PORT || 8080;
+
+// Servidor HTTP básico para Render
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Servidor WebSocket de Laberinto activo');
+});
+
+const wss = new WebSocket.Server({ server });
 let rooms = {};
 
 wss.on('connection', ws => {
@@ -33,4 +43,6 @@ wss.on('connection', ws => {
   });
 });
 
-console.log('Servidor WebSocket de Laberinto escuchando en ws://localhost:8080');
+server.listen(PORT, () => {
+  console.log(`Servidor WebSocket de Laberinto escuchando en puerto ${PORT}`);
+});

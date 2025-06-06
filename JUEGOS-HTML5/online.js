@@ -3,12 +3,15 @@
 
 // NOTA: Esto es un esqueleto básico. Requiere un servidor WebSocket real para funcionar en producción.
 
+// Cambia esta URL por la de tu WebSocket en Render, por ejemplo:
+const WS_URL = 'wss://laberinto-html5.onrender.com'; // URL de producción en Render
+
 let ws = null;
 let onlineRoomId = null;
 let isHost = false;
 
 function hostGame() {
-  ws = new WebSocket('ws://localhost:8080'); // Cambia por tu IP local si invitas a alguien en tu red
+  ws = new WebSocket(WS_URL); // Usar la URL configurable
   ws.onopen = () => {
     isHost = true;
     onlineRoomId = Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -31,7 +34,7 @@ function hostGame() {
 }
 
 function joinGame(roomId) {
-  ws = new WebSocket('ws://localhost:8080'); // Cambia por la IP del host si te conectas desde otra PC
+  ws = new WebSocket(WS_URL); // Usar la URL configurable
   ws.onopen = () => {
     isHost = false;
     onlineRoomId = roomId;
