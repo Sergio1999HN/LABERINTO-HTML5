@@ -9,10 +9,10 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Servir archivos estáticos (HTML, JS, CSS)
+// Servir archivos estáticos desde la carpeta correcta
 app.use(express.static(path.join(__dirname)));
 
-// Respuesta para cualquier ruta no encontrada (opcional)
+// Respuesta para cualquier ruta no encontrada (SPA)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
