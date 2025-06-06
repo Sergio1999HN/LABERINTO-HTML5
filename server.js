@@ -2,16 +2,20 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Servir archivos estáticos desde la raíz
-app.use(express.static(__dirname));
+// Detecta si el index.html está en la raíz o en JUEGOS-HTML5
+const staticDir = fs.existsSync(path.join(__dirname, 'index.html'))
+  ? __dirname
+  : path.join(__dirname, 'JUEGOS-HTML5');
 
-// Responder con index.html para cualquier ruta (SPA)
+app.use(express.static(staticDir));
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(staticDir, 'index.html'));
 });
 
 const server = http.createServer(app);
